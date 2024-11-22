@@ -1,0 +1,50 @@
+{% include 'header.html' %}
+<script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+<body>
+    <div class="container">
+        {% include 'left_menus.html' %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="#"><strong><span class="ti-crown"></span> Edit Teacher</strong></a>
+                    <hr>
+                    <form method="post" action="{{ url_for('save_teacher') }}">
+                        <!-- Teacher ID (for update) -->
+                        {% if teacher %}
+                            <input type="hidden" name="teacherid" value="{{ teacher[0] }}">
+                        {% endif %}
+
+                        <!-- Teacher Name -->
+                        <div class="form-group">
+                            <label for="teacher_name">Teacher Name*</label>
+                            <input type="text" class="form-control" id="teacher_name" name="teacher_name" 
+                                   value="{{ teacher[1] if teacher else '' }}" required>
+                        </div>
+
+                        <!-- Specialization (Subject) -->
+                        <div class="form-group">
+                            <label for="specialization">Specialization (Subject)*</label>
+                            <select class="form-control" id="specialization" name="specialization" required>
+                                <option value="">--Select Subject--</option>
+                                {% for subject in subjects %}
+                                    <option value="{{ subject[0] }}" 
+                                            {% if subject[0] == teacher[2] %}selected{% endif %}>
+                                        {{ subject[1] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Submit and Cancel -->
+                        <div class="modal-footer">
+                            <input type="hidden" name="action" id="action" value="updateTeacher">
+                            <input type="submit" name="save" id="save" class="btn btn-info" value="Save">
+                            <a href="{{ url_for('teacher') }}" class="btn btn-secondary" role="button">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

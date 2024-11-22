@@ -1,0 +1,108 @@
+{% include 'header.html' %}
+<script src="{{ url_for('static', filename='js/student.js') }}"></script>
+<body>
+    <div class="container">
+        {% include 'left_menus.html' %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="#"><strong><span class="ti-crown"></span> Edit Student</strong></a>
+                    <hr>
+                        <form method="post" action="{{ url_for('save_student') }}">
+                            <!-- Student ID (for update) -->
+                            <input type="hidden" name="student_id" id="student_id" value="{{ student[0] }}">
+
+                            <!-- Student Name -->
+                            <div class="form-group">
+                                <label for="sname" class="control-label">Name*</label>
+                                <input type="text" class="form-control" id="sname" name="name" placeholder="Student Name" value="{{ student[1] }}" required>
+                            </div>
+
+                            <!-- Date of Birth -->
+                            <div class="form-group">
+                                <label for="dob" class="control-label">Date of Birth</label>
+                                <input type="text" class="form-control" id="dob" name="dob" placeholder="mm/dd/yyyy" value="{{ student[3] }}">
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="form-group">
+                                <label for="gender" class="control-label">Gender</label>
+                                <select class="form-control" id="gender" name="gender">
+                                    <option value="">--Select--</option>
+                                    <option value="male" {% if student[2] == 'male' %}selected{% endif %}>Male</option>
+                                    <option value="female" {% if student[2] == 'female' %}selected{% endif %}>Female</option>
+                                </select>
+                            </div>
+
+                            <!-- Mobile -->
+                            <div class="form-group">
+                                <label for="mobile" class="control-label">Mobile</label>
+                                <input type="number" class="form-control" id="mobile" name="mobile" placeholder="Mobile" value="{{ student[4] }}">
+                            </div>
+
+                            <!-- Address -->
+                            <div class="form-group">
+                                <label for="address" class="control-label">Address</label>
+                                <textarea class="form-control" rows="2" id="current_address" name="current_address" placeholder="Address">{{ student[6] }}</textarea>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="email" class="control-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ student[5] }}">
+                            </div>
+
+                            <!-- Academic Year -->
+                            <div class="form-group">
+                                <label for="year" class="control-label">Academic Year*</label>
+                                <select name="academic_year" id="academic_year" class="form-control" required>
+                                    <option value="">Select Year</option>
+                                    <option value="2018" {% if student[11] == '2018' %}selected{% endif %}>2018</option>
+                                    <option value="2019" {% if student[11] == '2019' %}selected{% endif %}>2019</option>
+                                    <option value="2020" {% if student[11] == '2020' %}selected{% endif %}>2020</option>
+                                    <option value="2021" {% if student[11] == '2021' %}selected{% endif %}>2021</option>
+                                    <option value="2022" {% if student[11] == '2022' %}selected{% endif %}>2022</option>
+                                </select>
+                            </div>
+
+                            <!-- Admission Date -->
+                            <div class="form-group">
+                                <label for="admission_date" class="control-label">Admission Date</label>
+                                <input type="text" class="form-control" id="admission_date" name="admission_date" placeholder="mm/dd/yyyy" value="{{ student[10] }}">
+                            </div>
+
+                            <!-- Class -->
+                            <div class="form-group">
+                                <label for="classid" class="control-label">Class*</label>
+                                <select name="class_id" id="class_id" class="form-control" required>
+                                    <option value="">--Select--</option>
+                                    {% for class in classes %}
+                                        <option value="{{ class[0] }}" {% if class[0] == student[7] %}selected{% endif %}>{{ class[1] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Section -->
+                            <div class="form-group">
+                                <label for="sectionid" class="control-label">Section</label>
+                                <select name="section_id" id="section_id" class="form-control" required>
+                                    <option value="">--Select--</option>
+                                    {% for section in sections %}
+                                        <option value="{{ section[0] }}" {% if section[0] == student[8] %}selected{% endif %}>{{ section[1] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Submit and Cancel -->
+                            <div class="modal-footer">
+                                <input type="hidden" name="action" id="action" value="updateStudent">
+                                <input type="submit" name="save" id="save" class="btn btn-info" value="Save">
+                                <a href="{{ url_for('student') }}" class="btn btn-secondary" role="button">Cancel</a>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

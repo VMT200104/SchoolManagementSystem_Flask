@@ -1,0 +1,64 @@
+{% include 'header.html' %}
+<script src="{{ url_for('static', filename='js/classes.js') }}"></script>
+<body>
+    <div class="container">
+        {% include 'left_menus.html' %}
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <a href="#"><strong><span class="ti-crown"></span> Edit Class</strong></a>
+                    <hr>
+                    <form method="post" action="{{ url_for('save_class') }}">
+                        <!-- Class ID (for update) -->
+                        {% if class_data %}
+                            <input type="hidden" name="classid" value="{{ class_data[0] }}">
+                        {% endif %}
+
+                        <!-- Class Name -->
+                        <div class="form-group">
+                            <label for="cname">Class Name*</label>
+                            <input type="text" class="form-control" id="cname" name="cname" 
+                                   value="{{ class_data[1] if class_data else '' }}" required>
+                        </div>
+
+                        <!-- Sections -->
+                        <div class="form-group">
+                            <label for="sectionid">Sections*</label>
+                            <select name="sectionid" id="sectionid" class="form-control" required>
+                                <option value="">Select Section</option>
+                                {% for section in sections %}
+                                    <option value="{{ section[0] }}" 
+                                            {% if section[0] == class_data[0] %} selected {% endif %}>
+                                        {{ section[1] }}
+                                    </option>    
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Assign Class Teacher -->
+                        <div class="form-group">
+                            <label for="teacherid">Assign Class Teacher*</label>
+                            <select name="teacherid" id="teacherid" class="form-control" required>
+                                <option value="">--Select--</option>
+                                {% for teacher in teachers %}
+                                    <option value="{{ teacher[0] }}" 
+                                            {% if teacher[0] == class_data[3] %} selected {% endif %}>
+                                        {{ teacher[1] }}
+                                    </option>    
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Submit and Cancel -->
+                        <div class="modal-footer">
+                            <input type="hidden" name="action" id="action" value="updateClass">
+                            <input type="submit" name="save" id="save" class="btn btn-info" value="Save">
+                            <a href="{{ url_for('classes') }}" class="btn btn-secondary" role="button">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
